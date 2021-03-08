@@ -1,3 +1,4 @@
+import {store} from '../../configureStore';
 import { put, call } from 'redux-saga/effects';
 import { setStatus, removeTask } from '../../slices/taskesSlice';
 import { requestSubmitTask } from '../requests/taskesRequest';
@@ -19,7 +20,8 @@ export function* saga_submitTaskHandler(action) {
 }
 
 export function* saga_changeStatusTaskHandler(action) {
-  const {payload: {id, status, networkStatus}} = action;
+  const {payload: {id, status}} = action;
+  const networkStatus = store.getState().network.status;
   if(networkStatus === networkConst.CONNECTED) {
     if(status === taskConst.READY) {
       //trigger submit
@@ -29,3 +31,4 @@ export function* saga_changeStatusTaskHandler(action) {
     yield put(setStatus({id, status}));
   }
 }
+

@@ -30,12 +30,6 @@ export const taskesSlice = createSlice({
 
 export const { addTask, removeTask, setStatus } = taskesSlice.actions;
 
-export const selectTaskes = state => {
-  const taskes = [];
-  for(const id in state.taskes) {
-    taskes.push(state.taskes[id]);
-  }
-  return taskes;
-}
+export const selectTaskes = state => Object.values(state.taskes);
 
 export default taskesSlice.reducer;

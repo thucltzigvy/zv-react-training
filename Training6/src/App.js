@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {setNetworkStatus} from './redux/slices/networkSlice';
+import {saga_changeStatusNetworkAction} from './redux/sagas/actions/networkAction';
 import {selectTaskes} from './redux/slices/taskesSlice';
 import {saga_changeStatusTaskAction} from './redux/sagas/actions/taskesAction';
 import Task from './components/Task';
 import AddTask from './components/AddTask';
-import taskConst from './constances/task';
 import networkConst from './constances/network';
 
 
@@ -31,28 +30,18 @@ class App extends Component {
             mode: 'no-cors',
             })
           .then(() => {
-            this.props.setNetworkStatus(networkConst.CONNECTED);
+            this.props.changeStatusNetwork(networkConst.CONNECTED);
             clearInterval(webPing);
-            //try to summit ready task
-            this.props.taskes.forEach(task => {
-              if(task.status === taskConst.READY) {
-                this.props.changeStatusTask(
-                  task.id, 
-                  taskConst.READY, 
-                  networkConst.CONNECTED, //network auto set to connected
-                )
-              }
-            });
-          }).catch(() => this.props.setNetworkStatus(networkConst.DISCONNECTED));
+          }).catch(() => this.props.changeStatusNetwork(networkConst.DISCONNECTED));
         }, 2000);
       return;
     }
 
-    return this.props.setNetworkStatus(networkConst.DISCONNECTED);
+    return this.props.changeStatusNetwork(networkConst.DISCONNECTED);
   }
 
   handleChangeChecked = (id, nextStatus) => {
-    this.props.changeStatusTask(id, nextStatus, this.props.networkStatus);
+    this.props.changeStatusTask(id, nextStatus);
   }
 
   render() {
@@ -76,11 +65,11 @@ class App extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setNetworkStatus: (networkStatus) => {
-      dispatch(setNetworkStatus({status: networkStatus}));
+    changeStatusNetwork: (networkStatus) => {
+      dispatch(saga_changeStatusNetworkAction({status: networkStatus}));
     },
-    changeStatusTask: (id, nextStatus, networkStatus) => {
-      dispatch(saga_changeStatusTaskAction({id, status: nextStatus, networkStatus}));
+    changeStatusTask: (id, nextStatus) => {
+      dispatch(saga_changeStatusTaskAction({id, status: nextStatus}));
     }
   }
 }
