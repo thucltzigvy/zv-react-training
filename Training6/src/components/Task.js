@@ -26,8 +26,8 @@ const getStatusContent = (currentStatus, networkStatus) => {
 
 function Task(props) {
   const {id, label, status, onChangeChecked, networkStatus} = props;
-  const handleChangeChecked = (event) => {
-    onChangeChecked(id, status === taskConstances.READY ? taskConstances.PENDING : taskConstances.READY);
+  const handleChangeChecked = () => {
+    onChangeChecked(id, status === taskConstances.READY ? taskConstances.PENDING : taskConstances.SUBMITTING);
   }
   return (
     <div style={{display: 'flex'}}>

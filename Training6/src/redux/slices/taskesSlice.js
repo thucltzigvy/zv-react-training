@@ -20,7 +20,7 @@ export const taskesSlice = createSlice({
         delete state[action.payload.id]; 
       }
     },
-    setStatus: (state, action) => {
+    setTaskStatus: (state, action) => {
       if(state[action.payload.id]) {
         state[action.payload.id].status = action.payload.status;
       }
@@ -28,7 +28,7 @@ export const taskesSlice = createSlice({
   },
 });
 
-export const { addTask, removeTask, setStatus } = taskesSlice.actions;
+export const { addTask, removeTask, setTaskStatus } = taskesSlice.actions;
 
 export const selectTaskes = state => Object.values(state.taskes);
 

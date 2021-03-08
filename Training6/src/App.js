@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {saga_changeStatusNetworkAction} from './redux/sagas/actions/networkAction';
-import {selectTaskes} from './redux/slices/taskesSlice';
-import {saga_changeStatusTaskAction} from './redux/sagas/actions/taskesAction';
+import {setNetworkStatus} from './redux/slices/networkSlice';
+import {selectTaskes,setTaskStatus} from './redux/slices/taskesSlice';
 import Task from './components/Task';
 import AddTask from './components/AddTask';
 import networkConst from './constances/network';
@@ -66,10 +65,10 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     changeStatusNetwork: (networkStatus) => {
-      dispatch(saga_changeStatusNetworkAction({status: networkStatus}));
+      dispatch(setNetworkStatus({status: networkStatus}));
     },
     changeStatusTask: (id, nextStatus) => {
-      dispatch(saga_changeStatusTaskAction({id, status: nextStatus}));
+      dispatch(setTaskStatus({id, status: nextStatus}));
     }
   }
 }
