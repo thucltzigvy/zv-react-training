@@ -29,7 +29,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['network', 'taskes'],
+  blacklist: ['network'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);
